@@ -1,9 +1,7 @@
-#!/usr/bin/env python3
-
-from count_sentences import MyString
-
+import unittest
 import io
 import sys
+from count_sentences import MyString
 
 class TestMyString:
     '''MyString in count_sentences.py'''
@@ -17,8 +15,10 @@ class TestMyString:
         '''prints "The value must be a string." if not string.'''
         captured_out = io.StringIO()
         sys.stdout = captured_out
-        string = MyString()
-        string.value = 123
+        try:
+            string = MyString(123)
+        except ValueError as e:
+            print(str(e))
         sys.stdout = sys.__stdout__
         assert(captured_out.getvalue() == "The value must be a string.\n")
 
@@ -45,3 +45,6 @@ class TestMyString:
         assert(simple_string.count_sentences() == 3)
         assert(empty_string.count_sentences() == 0)
         assert(complex_string.count_sentences() == 4)
+
+if __name__ == '__main__':
+    unittest.main()
